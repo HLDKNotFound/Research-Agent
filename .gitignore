@@ -1,0 +1,85 @@
+# ==============================================================================
+# AI Agentic Research Platform - Root .gitignore
+# ==============================================================================
+
+# 1. Environment & Secret Configuration (Crucial: never commit credentials)
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
+# 2. Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.installed.cfg
+develop-eggs/
+eggs/
+.eggs/
+parts/
+var/
+sdist/
+build/
+dist/
+
+# 3. Virtual Environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# 4. Testing & Code Quality Caches
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# 5. Node.js & Frontend Artifacts
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist-ssr/
+*.local
+
+# 6. Logs & Storage
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+storage/
+uploads/
+/tmp/research_agent_storage/
+
+# 7. Databases & Local SQLite
+*.sqlite
+*.sqlite3
+*.db
+
+# 8. OS & IDE Metadata
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*~
+.gemini/
