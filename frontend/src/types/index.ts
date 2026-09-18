@@ -42,9 +42,19 @@ export interface Citation {
 export interface AgentStep {
   agent: string;
   step: string;
-  status: 'running' | 'completed' | 'failed';
+  status: 'running' | 'completed' | 'failed' | 'queued';
   message: string;
   progress_pct?: number;
+  details?: {
+    sub_queries?: string[];
+    sources?: Array<{ title: string; url?: string; score?: number }>;
+    metrics?: Record<string, any>;
+    hallucinations_detected?: number;
+    discrepancies?: number;
+    unsupported_claims?: number;
+    confidence_score?: string | number;
+    [key: string]: any;
+  };
 }
 
 export interface Message {
@@ -72,6 +82,17 @@ export interface FileItem {
   created_at: string;
 }
 
+export interface RunStepItem {
+  id: string;
+  run_id: string;
+  agent_name: string;
+  step_name: string;
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  output_data?: Record<string, any>;
+  duration_ms?: number;
+  created_at: string;
+}
+
 export interface AnalysisRun {
   id: string;
   project_id: string;
@@ -80,6 +101,7 @@ export interface AnalysisRun {
   status: 'queued' | 'planning' | 'researching' | 'analyzing' | 'writing' | 'reviewing' | 'completed' | 'failed';
   current_step?: string;
   progress_pct: number;
+  steps?: RunStepItem[];
   created_at: string;
 }
 

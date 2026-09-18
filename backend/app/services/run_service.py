@@ -248,7 +248,11 @@ class RunService:
                     agent_name=step_info.get("agent", "Agent"),
                     step_name=step_info.get("step", "Execution"),
                     status=step_info.get("status", "completed"),
-                    output_data={"message": step_info.get("message")},
+                    output_data={
+                        "message": step_info.get("message"),
+                        "details": step_info.get("details"),
+                        "progress_pct": step_info.get("progress_pct"),
+                    },
                 ),
             )
             await self.record_event(

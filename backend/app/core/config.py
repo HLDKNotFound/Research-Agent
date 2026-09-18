@@ -59,9 +59,11 @@ class Settings(BaseSettings):
     STORAGE_ACCESS_KEY: Optional[str] = None
     STORAGE_SECRET_KEY: Optional[str] = None
 
-    # External AI & LLM APIs (GLM-4.7, OpenAI, Tavily)
-    LLM_PROVIDER: str = "glm"  # glm, openai, local
-    LLM_MODEL: str = "glm-4.7"
+    # External AI & LLM APIs (Gemini 2.5 Flash, GLM, OpenAI, Tavily)
+    LLM_PROVIDER: str = "gemini"  # gemini, glm, openai, local
+    LLM_MODEL: str = "gemini-2.5-flash"
+    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_BASE_URL: str = "https://generativelanguage.googleapis.com/v1beta/openai/"
     GLM_API_KEY: Optional[str] = None
     GLM_BASE_URL: str = "https://open.bigmodel.cn/api/paas/v4"
     TAVILY_API_KEY: Optional[str] = None

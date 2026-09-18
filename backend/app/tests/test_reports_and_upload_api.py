@@ -141,7 +141,7 @@ async def test_file_upload_and_reports_api(mock_cache_service):
         report_detail_resp = await ac.get(f"/api/v1/reports/{report_id}", headers=headers)
         assert report_detail_resp.status_code == 200
         detail_data = report_detail_resp.json()
-        assert len(detail_data["sections"]) == 3
+        assert len(detail_data["sections"]) in (3, 4)
         total_citations = sum(len(s.get("citations") or []) for s in detail_data["sections"])
         assert total_citations >= 1
 

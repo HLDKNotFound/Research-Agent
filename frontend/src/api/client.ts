@@ -110,7 +110,25 @@ export class ApiClient {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      const message = errorData.message || errorData.detail || `HTTP error ${response.status}`;
+      let message = `HTTP error ${response.status}`;
+      if (typeof errorData.message === 'string' && errorData.message) {
+        message = errorData.message;
+      } else if (typeof errorData.detail === 'string' && errorData.detail) {
+        message = errorData.detail;
+      } else if (Array.isArray(errorData.detail) && errorData.detail.length > 0) {
+        message = errorData.detail
+          .map((item: any) => {
+            if (typeof item === 'string') return item;
+            if (item && item.msg) {
+              const field = Array.isArray(item.loc) ? item.loc.slice(1).join('.') : '';
+              return field ? `${field}: ${item.msg}` : item.msg;
+            }
+            return JSON.stringify(item);
+          })
+          .join(' | ');
+      } else if (typeof errorData.error === 'string' && errorData.error) {
+        message = errorData.error;
+      }
       throw new Error(message);
     }
 

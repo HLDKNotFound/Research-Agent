@@ -21,10 +21,11 @@ export const conversationsApi = {
   listMessages: (conversationId: string) =>
     ApiClient.get<Message[]>(`/api/v1/conversations/${conversationId}/messages?page=1&limit=100`),
 
-  sendMessage: (conversationId: string, content: string, role: string = 'user') =>
+  sendMessage: (conversationId: string, content: string, role: string = 'user', metadata?: Record<string, unknown>) =>
     ApiClient.post<Message>(`/api/v1/conversations/${conversationId}/messages`, {
       conversation_id: conversationId,
       role,
       content,
+      metadata,
     }),
 };

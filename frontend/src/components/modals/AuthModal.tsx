@@ -97,7 +97,8 @@ export const AuthModal: React.FC = () => {
             <input
               className="form-input"
               type="password"
-              placeholder="••••••••••••"
+              placeholder={isLoginMode ? '••••••••••••' : 'At least 8 characters'}
+              minLength={isLoginMode ? undefined : 8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

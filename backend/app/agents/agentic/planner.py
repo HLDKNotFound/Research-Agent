@@ -25,7 +25,10 @@ async def planner_node(state: ResearchState) -> Dict[str, Any]:
     if llm_text:
         lines = [line.strip().lstrip("1234567890.- ") for line in llm_text.split("\n") if line.strip()]
         if len(lines) >= 3:
-            sub_queries = lines[:4]
+            sub_queries = [
+                f"{line} relating to '{prompt}'" if prompt.lower() not in line.lower() else line
+                for line in lines[:4]
+            ]
 
     # 2. Fallback to structured analytical sub-queries if offline or API key omitted
     if not sub_queries:
@@ -40,8 +43,13 @@ async def planner_node(state: ResearchState) -> Dict[str, Any]:
         "agent": "Planner Agent",
         "step": "Planning & Sub-Query Formulation",
         "status": "completed",
-        "message": f"Formulated {len(sub_queries)} targeted research sub-queries.",
+        "message": f"Decomposed investigation into {len(sub_queries)} targeted empirical sub-questions.",
         "progress_pct": 20,
+        "details": {
+            "sub_queries": sub_queries,
+            "count": len(sub_queries),
+            "target": f"Decomposed investigation into {len(sub_queries)} targeted empirical sub-questions.",
+        },
     }
 
     return {

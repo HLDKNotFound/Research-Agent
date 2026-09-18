@@ -2,18 +2,22 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { projectsApi } from '../api/projects';
 import { useUI } from '../context/UIContext';
+import { useAuth } from '../context/AuthContext';
+import type { Project } from '../types';
 
 export const useProjects = () => {
   const queryClient = useQueryClient();
   const { activeProjectId, setActiveProjectId } = useUI();
+  const { isAuthenticated } = useAuth();
 
   const projectsQuery = useQuery({
-    queryKey: ['projects'],
-    queryFn: projectsApi.list,
+    queryKey: ['projects', isAuthenticated],
+    queryFn: () => projectsApi.list(),
+    enabled: !!isAuthenticated,
     staleTime: 5 * 60 * 1000, // 5 minutes cache
   });
 
-  const projects = projectsQuery.data?.items || [];
+  const projects: Project[] = projectsQuery.data?.items || [];
 
   // Automatically select the first project if none is active
   useEffect(() => {

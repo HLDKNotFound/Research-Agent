@@ -8,6 +8,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { useUI } from '../../context/UIContext';
+import { useAuth } from '../../context/AuthContext';
 import { useConversations } from '../../hooks/useConversations';
 
 export const ChatInput: React.FC = () => {
@@ -16,7 +17,8 @@ export const ChatInput: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { isDeepResearch, toggleDeepResearch } = useUI();
+  const { isDeepResearch, toggleDeepResearch, openModal } = useUI();
+  const { isAuthenticated } = useAuth();
   const { sendMessage, isSending } = useConversations();
 
   // Auto-resize textarea height
@@ -28,6 +30,10 @@ export const ChatInput: React.FC = () => {
   }, [prompt]);
 
   const handleSubmit = async () => {
+    if (!isAuthenticated) {
+      openModal('auth');
+      return;
+    }
     if (!prompt.trim() || isSending) return;
     const currentText = prompt;
     setPrompt('');
